@@ -24,8 +24,8 @@
   --card: rgba(24, 24, 27, 0.6); 
   --card-foreground: #fafafa;
   
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.12); /* Increased visibility */
+  --input: rgba(255, 255, 255, 0.12);
   
   /* Status Colors */
   --success: #10b981; /* Emerald 500 */
@@ -33,7 +33,7 @@
   --destructive: #ef4444; /* Red 500 */
   
   /* Glass Utilities - Cleaner, less blurry/glowy */
-  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.12);
   --glass-bg: rgba(9, 9, 11, 0.7);
   --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 
@@ -86,7 +86,7 @@ body {
 
 .glass-hover:hover {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.25); /* Increased hover border */
   box-shadow: 0 0 15px rgba(217, 70, 239, 0.1); /* Subtle glow on hover */
 }
 
@@ -94,5 +94,5 @@ body {
   background: rgba(10, 10, 20, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }

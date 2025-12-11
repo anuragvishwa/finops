@@ -15,7 +15,7 @@ export function StatTile({ title, value, subtext, trend, trendValue, icon: Icon 
     <GlassCard className="relative overflow-hidden group" noPadding>
       <div className="relative z-10 p-5">
         <div className="flex items-center justify-between mb-3">
-          <div className="p-1.5 rounded-lg bg-zinc-800/50 border border-white/5 group-hover:bg-zinc-800 transition-colors">
+          <div className="p-1.5 rounded-lg bg-zinc-800/50 border border-white/10 group-hover:bg-zinc-800 transition-colors">
             <Icon className="h-4 w-4 text-indigo-400" />
           </div>
           {trend && (

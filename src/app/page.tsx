@@ -8,21 +8,33 @@ import { DollarSign, Activity, AlertOctagon, TrendingDown } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="space-y-6 pb-6 pt-2">
+    <div className="space-y-6 pb-6 pt-0">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-white mb-1 tracking-tight">Overview</h2>
-          <p className="text-zinc-400">Your cloud spend health and reliability risks.</p>
-        </div>
-        <div className="flex items-center space-x-3">
-           <button className="whitespace-nowrap shrink-0 px-4 py-2 rounded-lg bg-zinc-800 border border-white/5 text-sm font-medium text-zinc-300 hover:bg-zinc-700/50 hover:text-white transition-colors">
-             Export Report
-           </button>
-           <button className="whitespace-nowrap shrink-0 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-sm font-medium text-white shadow-md shadow-indigo-500/20 transition-all">
-             Start Deep Dive
-           </button>
-        </div>
+      {/* Header Actions - Pulled up */}
+      {/* Header Actions - Pulled up */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
+         <div>
+            <h2 className="text-2xl font-bold text-white tracking-tight">Overview</h2>
+            <p className="text-sm text-zinc-400">Your cloud spend health and reliability risks.</p>
+         </div>
+         <div className="flex items-center gap-3">
+            {/* Range & Env Controls */}
+            <div className="flex items-center bg-zinc-900/50 rounded-lg p-1 border border-white/10 mr-2">
+               <button className="px-3 py-1.5 text-xs font-medium text-white bg-zinc-700/80 rounded shadow-sm hover:bg-zinc-700 transition-colors">Last 30 Days</button>
+               <button className="px-3 py-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-300 transition-colors">Last 6 Months</button>
+               <div className="w-px h-4 bg-white/10 mx-1"></div>
+               <span className="text-[10px] text-zinc-500 px-2 uppercase tracking-wider font-semibold">Env:</span>
+               <button className="px-2 py-1 text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded mr-1 hover:bg-emerald-500/20 transition-colors">Prod</button>
+               <button className="px-2 py-1 text-xs font-medium text-zinc-500 hover:text-zinc-300 transition-colors">Staging</button>
+            </div>
+
+            <button className="whitespace-nowrap shrink-0 px-4 py-2 rounded-lg bg-zinc-800 border border-white/10 text-xs font-medium text-zinc-300 hover:bg-zinc-700/50 hover:text-white transition-colors">
+              Export Report
+            </button>
+            <button className="whitespace-nowrap shrink-0 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shadow-md shadow-indigo-500/20 transition-all">
+              Start Deep Dive
+            </button>
+         </div>
       </div>
 
       {/* Stats Row */}
@@ -101,7 +113,7 @@ export default function Home() {
             <p className="text-zinc-400 text-sm max-w-xs mb-6">
               Simulate changes to your infrastructure to verify cost savings before applying them.
             </p>
-            <button className="px-6 py-2 rounded-full bg-zinc-800 border border-white/5 text-white hover:bg-zinc-700 transition-all">
+            <button className="px-6 py-2 rounded-full bg-zinc-800 border border-white/10 text-white hover:bg-zinc-700 transition-all">
                Launch Simulator
             </button>
          </div>

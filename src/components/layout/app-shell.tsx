@@ -25,7 +25,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className={cn("relative z-10 flex flex-1 flex-col w-full", showSidebar && "pl-64")}>
         <div className="container mx-auto max-w-7xl p-6 lg:p-8">
            <TopBar />
-           <main className="animate-in fade-in slide-in-from-bottom-4 duration-500 mt-6">
+           <main className="animate-in fade-in slide-in-from-bottom-4 duration-500 mt-2">
              {children}
            </main>
         </div>

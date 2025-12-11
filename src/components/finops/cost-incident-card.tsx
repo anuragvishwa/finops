@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export function CostIncidentCard({ incident, onClick, layoutId, href, compact = false, minimal = false }: { incident: CostIncident; onClick?: () => void; layoutId?: string; href?: string; compact?: boolean, minimal?: boolean }) {
   const innerContent = (
-      <div className={`flex items-start justify-between ${minimal ? 'p-4 border-b border-white/5 last:border-0 hover:bg-zinc-800/30 transition-colors' : ''}`}>
+      <div className={`flex items-start justify-between ${minimal ? 'p-4 border-b border-white/10 last:border-0 hover:bg-zinc-800/30 transition-colors' : ''}`}>
          <div className="flex items-center space-x-3 overflow-hidden">
             {!compact && !minimal && (
                <div className={`p-2 rounded-lg shrink-0 ${

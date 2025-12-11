@@ -19,21 +19,10 @@ import { ClientWrapper } from "../ui/client-wrapper";
 export function CostTimeSeriesChart() {
   return (
     <GlassCard className="flex flex-col">
-       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 px-1 gap-4">
+       <div className="flex items-center justify-between mb-6 px-1">
          <div>
             <h3 className="text-lg font-semibold text-white">Cost Trend</h3>
             <p className="text-sm text-zinc-400">Daily spend analysis</p>
-         </div>
-         <div className="flex items-center gap-3">
-            <div className="flex items-center bg-zinc-900/50 rounded-lg p-1 border border-white/5">
-               <button className="px-3 py-1 text-xs font-medium text-white bg-zinc-700/80 rounded shadow-sm">Last 30 Days</button>
-               <button className="px-3 py-1 text-xs font-medium text-zinc-500 hover:text-zinc-300">Last 6 Months</button>
-            </div>
-            <div className="flex items-center bg-zinc-900/50 rounded-lg p-1 border border-white/5">
-                <span className="text-[10px] text-zinc-500 px-2 uppercase tracking-wider font-semibold">Env:</span>
-                <button className="px-2 py-1 text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded mr-1">Prod</button>
-                <button className="px-2 py-1 text-xs font-medium text-zinc-500 hover:text-zinc-300">Staging</button>
-            </div>
          </div>
        </div>
        

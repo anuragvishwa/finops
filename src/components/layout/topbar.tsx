@@ -5,30 +5,9 @@ import { GlassCard } from "@/components/ui/glass-card";
 
 export function TopBar() {
   return (
-    <header className="sticky top-0 z-30 mb-8 flex items-center justify-between py-4 backdrop-blur-none">
+    <header className="sticky top-0 z-30 mb-2 flex items-center justify-between py-4 backdrop-blur-none">
       <div className="flex items-center space-x-4">
-        <GlassCard 
-          noPadding 
-          className="flex items-center px-4 py-2"
-        >
-          <span className="mr-2 text-sm font-medium text-slate-400">Range:</span>
-          <select className="bg-transparent text-sm font-semibold text-white focus:outline-none">
-            <option>Last 30 Days</option>
-            <option>Last 7 Days</option>
-            <option>Last 90 Days</option>
-          </select>
-        </GlassCard>
-        
-         <GlassCard 
-          noPadding 
-          className="flex items-center px-4 py-2"
-        >
-          <span className="mr-2 text-sm font-medium text-slate-400">Environment:</span>
-          <div className="flex space-x-1">
-             <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-xs font-medium text-emerald-400 border border-emerald-500/30">Prod</span>
-             <span className="rounded bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-400 hover:text-white cursor-pointer transition-colors">Staging</span>
-          </div>
-        </GlassCard>
+        {/* Controls moved to page header */}
       </div>
 
       <div className="flex items-center space-x-4">
