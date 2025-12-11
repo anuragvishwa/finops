@@ -1,13 +1,14 @@
 import { StatTile } from "@/components/ui/stat-tile";
 import { CostTimeSeriesChart } from "@/components/charts/cost-chart";
 import { CostIncidentCard } from "@/components/finops/cost-incident-card";
+import { GlassCard } from "@/components/ui/glass-card";
 import { SavingsPathSummary } from "@/components/finops/savings-paths-summary";
 import { costIncidents, savingsPaths } from "@/lib/mock-data";
 import { DollarSign, Activity, AlertOctagon, TrendingDown } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="space-y-8 pb-10">
+    <div className="space-y-6 pb-6 pt-2">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
@@ -25,7 +26,7 @@ export default function Home() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatTile 
            title="Total Cloud Spend" 
            value="$124,380" 
@@ -79,10 +80,15 @@ export default function Home() {
          <div className="space-y-4">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-semibold text-white">Recent Cost Incidents</h3>
-              <a href="#" className="text-sm text-indigo-400 hover:text-indigo-300">View all</a>
+              <a href="/incidents" className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">View all</a>
             </div>
             {costIncidents.slice(0, 3).map(incident => (
-               <CostIncidentCard key={incident.id} incident={incident} />
+               <CostIncidentCard 
+                  key={incident.id} 
+                  incident={incident} 
+                  href={`/incidents?open=${incident.id}`}
+                  compact
+               />
             ))}
          </div>
 

@@ -8,10 +8,25 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { IncidentModal } from "@/components/finops/incident-modal";
 
-export default function IncidentsPage() {
+import { useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
+
+function IncidentsContent() {
   const [activeFilter, setActiveFilter] = useState("All Incidents");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIncident, setSelectedIncident] = useState<CostIncident | null>(null);
+  
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+     const openId = searchParams.get('open');
+     if (openId) {
+        const incident = costIncidents.find(i => i.id === openId);
+        if (incident) {
+           setSelectedIncident(incident);
+        }
+     }
+  }, [searchParams]);
 
   const filteredIncidents = costIncidents.filter(incident => {
     // 1. Filter by Tab
@@ -113,4 +128,12 @@ export default function IncidentsPage() {
       </div>
     </div>
   );
+}
+
+export default function IncidentsPage() {
+   return (
+      <Suspense fallback={<div className="text-zinc-500">Loading incidents...</div>}>
+         <IncidentsContent />
+      </Suspense>
+   );
 }
