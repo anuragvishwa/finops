@@ -41,8 +41,8 @@ export function Sidebar() {
 
       <div className="flex h-full flex-col px-4 py-6 relative z-10">
         {/* Logo */}
-        <div className="mb-10 flex items-center px-2">
-          <div className="relative mr-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-white/10 to-white/5 ring-1 ring-white/10 group shadow-lg shadow-black/50">
+        <Link href="/" className="mb-8 flex items-center space-x-3 px-2 group cursor-pointer">
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-white/10 to-white/5 ring-1 ring-white/10 shadow-lg shadow-black/50">
              <div className="absolute inset-0 rounded-xl bg-fuchsia-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <Zap className="h-5 w-5 text-white relative z-10 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
           </div>
@@ -50,7 +50,7 @@ export function Sidebar() {
             <h1 className="text-lg font-bold tracking-tight text-white leading-none">Lumniverse</h1>
             <p className="text-[10px] font-medium text-zinc-500 tracking-wide mt-1">FinOps tech.</p>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <nav className="flex-1 space-y-2">

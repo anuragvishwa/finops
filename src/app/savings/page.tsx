@@ -104,7 +104,13 @@ export default function SavingsPage() {
                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-2">
-                                        <Badge variant="outline" className="bg-white/5 hover:bg-white/10 text-zinc-300 border-white/10">
+                                        <Badge variant="outline" className={`
+                                            ${action.type === 'Rightsizing' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
+                                              action.type === 'Commitment' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
+                                              action.type === 'Scheduling' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                                              action.type === 'Cleanup' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
+                                              'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20'}
+                                        `}>
                                             {action.type}
                                         </Badge>
                                         <h4 className="font-semibold text-white">{action.description}</h4>
