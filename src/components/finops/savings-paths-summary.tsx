@@ -1,52 +1,85 @@
 import { GlassCard } from "@/components/ui/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ShieldCheck, Zap, AlertTriangle } from "lucide-react";
+import { motion } from "framer-motion";
 import { SavingsPath } from "@/lib/mock-data";
 
-export function SavingsPathSummary({ paths }: { paths: SavingsPath[] }) {
+interface SavingsPathSummaryProps {
+  paths: SavingsPath[];
+  onPathSelect?: (pathId: string) => void;
+}
+
+export function SavingsPathSummary({ paths, onPathSelect }: SavingsPathSummaryProps) {
   return (
-    <GlassCard className="h-full">
+    <GlassCard className="h-full flex flex-col p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-white">Savings Paths</h3>
-        <Badge variant="outline">AI Generated</Badge>
+        <h3 className="text-xl font-semibold text-white">Savings Paths</h3>
+        <Badge variant="outline" className="rounded-full px-3 border-zinc-700 bg-zinc-800 text-zinc-300 font-normal hover:bg-zinc-800">
+           AI Generated
+        </Badge>
       </div>
 
-      <div className="space-y-4">
+      <div className="flex-1 space-y-4">
         {paths.map((path) => {
            let Icon = ShieldCheck;
            let color = "text-emerald-400";
            let bg = "bg-emerald-500/10";
+           let iconBg = "bg-emerald-950/30";
+           let description = "low risk scenarios";
            
-           if (path.riskLevel === 'medium') { Icon = Zap; color = "text-amber-400"; bg = "bg-amber-500/10"; }
-           if (path.riskLevel === 'high') { Icon = AlertTriangle; color = "text-rose-400"; bg = "bg-rose-500/10"; }
+           if (path.riskLevel === 'medium') { 
+             Icon = Zap; 
+             color = "text-amber-400"; 
+             bg = "bg-amber-500/10";
+             iconBg = "bg-amber-950/30";
+             description = "medium risk scenarios";
+           }
+           if (path.riskLevel === 'high') { 
+             Icon = AlertTriangle; 
+             color = "text-rose-400"; 
+             bg = "bg-rose-500/10";
+             iconBg = "bg-rose-950/30";
+             description = "high risk scenarios";
+           }
 
            return (
-             <div key={path.id} className="group flex items-center justify-between rounded-lg border border-white/5 bg-white/5 p-3 hover:bg-white/10 hover:border-fuchsia-500/20 transition-all cursor-pointer">
-                <div className="flex items-center space-x-3">
-                   <div className={`p-2 rounded-lg ${bg} ${color}`}>
+            <motion.div
+              key={path.id}
+              layoutId={`path-card-${path.id}`}
+              onClick={() => onPathSelect?.(path.id)}
+              className="cursor-pointer group"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+            >
+              <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-900/50 border border-white/5 hover:border-white/10 transition-colors">
+                <div className="flex items-center gap-3">
+                   <div className={`p-2.5 rounded-xl ${iconBg} ${color} shrink-0 border border-white/5`}>
                       <Icon className="h-5 w-5" />
                    </div>
-                   <div>
-                      <h4 className="font-medium text-white">{path.name}</h4>
-                      <p className="text-xs text-slate-400">{path.riskLevel} risk scenarios</p>
+                   <div className="flex flex-col">
+                      <motion.h4 layoutId={`title-${path.id}`} className="text-white font-semibold text-sm">{path.name}</motion.h4>
+                      <p className="text-[10px] text-zinc-500">{description}</p>
                    </div>
                 </div>
                 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center gap-3">
                    <div className="text-right">
-                      <p className="font-bold text-white text-emerald-400 shadow-emerald-500/20 drop-shadow-sm">
-                         ${path.estimatedTotalSavings.toLocaleString()}
-                      </p>
-                      <p className="text-[10px] text-slate-500">/mo</p>
+                      <motion.div layoutId={`value-${path.id}`} className="flex flex-col items-end">
+                         <span className="text-base font-bold text-white">
+                           ${path.estimatedTotalSavings.toLocaleString()}
+                         </span>
+                         <span className="text-[10px] text-zinc-500">/mo</span>
+                      </motion.div>
                    </div>
-                   <ArrowRight className="h-4 w-4 text-slate-500 group-hover:text-white transition-colors" />
+                   <ArrowRight className="h-5 w-5 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
                 </div>
-             </div>
+              </div>
+            </motion.div>
            );
         })}
       </div>
       
-      <button className="mt-6 w-full rounded-lg bg-fuchsia-600/20 border border-fuchsia-500/30 py-2 text-sm font-medium text-fuchsia-400 hover:bg-fuchsia-600/30 transition-colors">
+      <button className="mt-6 w-full rounded-lg bg-fuchsia-900/20 border border-fuchsia-500/20 py-3 text-base font-medium text-fuchsia-300 hover:bg-fuchsia-900/30 hover:text-fuchsia-200 transition-all">
         View All Savings Scenarios
       </button>
     </GlassCard>

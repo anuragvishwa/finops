@@ -23,7 +23,7 @@ export function CostIncidentCard({ incident, onClick, layoutId, href, compact = 
             )}
             <div className="min-w-0">
                <div className="flex items-center gap-2 mb-1 flex-wrap">
-                 <h4 className={`font-semibold text-white group-hover:text-indigo-300 transition-colors truncate ${compact || minimal ? 'text-sm' : 'text-base'}`}>{incident.title}</h4>
+                 <h4 className={`font-semibold text-white group-hover/card:text-indigo-300 transition-colors truncate ${compact || minimal ? 'text-sm' : 'text-base'}`}>{incident.title}</h4>
                  <div className="flex items-center gap-1.5 shrink-0">
                      <Badge variant={incident.severity === 'high' ? 'destructive' : incident.severity === 'medium' ? 'warning' : 'outline'} className="text-[10px] px-1.5 py-0 h-5">
                         {incident.severity}
@@ -37,7 +37,7 @@ export function CostIncidentCard({ incident, onClick, layoutId, href, compact = 
                {!compact && !minimal && <p className="text-sm text-slate-400 mb-2 line-clamp-1">{incident.suspectedCause}</p>}
                
                <div className="flex items-center space-x-2 text-xs text-slate-500">
-                  <span className="font-mono text-zinc-500 group-hover:text-indigo-400/80 transition-colors truncate max-w-[120px]">{incident.primaryServiceId}</span>
+                  <span className="font-mono text-zinc-500 group-hover/card:text-indigo-400/80 transition-colors truncate max-w-[120px]">{incident.primaryServiceId}</span>
                   <span className="h-1 w-1 rounded-full bg-slate-700 shrink-0" />
                   <span className="shrink-0">{new Date(incident.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                </div>
@@ -45,7 +45,7 @@ export function CostIncidentCard({ incident, onClick, layoutId, href, compact = 
          </div>
          
          <div className={`text-right shrink-0 ml-2 ${compact || minimal ? 'flex flex-col justify-center' : ''}`}>
-            <p className={`${compact || minimal ? 'text-base' : 'text-lg'} font-bold text-white group-hover:text-rose-400 transition-colors`}>
+            <p className={`${compact || minimal ? 'text-base' : 'text-lg'} font-bold text-white group-hover/card:text-rose-400 transition-colors`}>
                 +${incident.extraSpend}
             </p>
             {!compact && !minimal && <p className="text-xs text-slate-500">Extra spend</p>}
@@ -61,14 +61,14 @@ export function CostIncidentCard({ incident, onClick, layoutId, href, compact = 
 
   if (href) {
      return (
-        <Link href={href} className="group cursor-pointer relative block w-full">
+        <Link href={href} className="group/card cursor-pointer relative block w-full">
            {CardContent}
         </Link>
      );
   }
 
   return (
-    <motion.div layoutId={layoutId} onClick={onClick} className="group cursor-pointer relative w-full">
+    <motion.div layoutId={layoutId} onClick={onClick} className="group/card cursor-pointer relative w-full">
       {CardContent}
     </motion.div>
   );

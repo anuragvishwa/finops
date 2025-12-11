@@ -227,6 +227,132 @@ export const statDetails: Record<string, StatDetail> = {
     actionLabel: "Apply All Savings"
   }
 };
+// Savings Details Data
+export interface SavingsPathDetail {
+  id: string;
+  title: string;
+  riskLevel: "low" | "medium" | "high";
+  potentialSavings: string;
+  description: string;
+  actions: { 
+    id: string; 
+    type: string; 
+    impact: string; 
+    risk: string;
+    description: string;
+    simulationSteps?: string[]; 
+  }[];
+  implementationTime: string;
+  autoFixAvailable: boolean;
+}
+
+export const savingsDetails: Record<string, SavingsPathDetail> = {
+  "path-safe": {
+    id: "path-safe",
+    title: "Safe",
+    riskLevel: "low",
+    potentialSavings: "$18,200",
+    description: "Low-risk optimizations that do not affect application performance or availability.",
+    actions: [
+      { 
+        id: "s1", 
+        type: "Storage Cleanup", 
+        impact: "$4,200/mo", 
+        risk: "Low",
+        description: "Delete unattached EBS volumes older than 30 days.",
+        simulationSteps: ["Scanning region us-east-1 for orphaned volumes...", "Identified 4 unattached volumes (Total 500GB)", "Creating final snapshot 'snap-cleanup-2025'...", "Deleting volume vol-0a1b2c3d...", "Deleting volume vol-0e5f6g7h...", "Storage cleanup complete."]
+      },
+      { 
+        id: "s2", 
+        type: "Rightsizing", 
+        impact: "$8,500/mo", 
+        risk: "Low",
+        description: "Downsize RDS instances with <5% CPU utilization.",
+        simulationSteps: ["Analyzing RDS metrics (30d history)...", "Detected 'db-staging-01' at 2% avg utilization", "Calculating rightsizing target (db.r5.xlarge -> db.r5.large)...", "Verifying connection pool capacity...", "Applying modification (Maintenance Window: Immediate)...", "Instance resizing initiated."]
+      },
+      { 
+        id: "s3", 
+        type: "Reserved Instances", 
+        impact: "$5,500/mo", 
+        risk: "Low",
+        description: "Purchase RIs for steady-state production workloads.",
+        simulationSteps: ["Evaluating EC2 usage patterns...", "Identified 12 steady-state m5.large instances", "Comparing Standard vs Convertible RI pricing...", "Generating quote for 1-year All Upfront RI...", "Processing purchase order PO-2938...", "RIs successfully applied to account."]
+      }
+    ],
+    implementationTime: "Immediate",
+    autoFixAvailable: true
+  },
+  "path-balanced": {
+    id: "path-balanced",
+    title: "Balanced",
+    riskLevel: "medium",
+    potentialSavings: "$28,500",
+    description: "Moderate changes involving spot instances and some architectural tweaks.",
+    actions: [
+      { 
+        id: "b1", 
+        type: "Spot Instances", 
+        impact: "$12,000/mo", 
+        risk: "Medium",
+        description: "Migrate stateless staging microservices to Spot instances.",
+        simulationSteps: ["Identifying stateless candidates in 'staging'...", "Found 'image-worker', 'log-processor'", "Creating Spot Fleet Request config...", "Setting max price to on-demand -50%...", "Updating Auto Scaling Group launch template...", "Rolling out replacement instances..."]
+      },
+      { 
+        id: "b2", 
+        type: "Life-cycle Policy", 
+        impact: "$6,500/mo", 
+        risk: "Low",
+        description: "Move S3 objects >90 days old to Glacier Deep Archive.",
+        simulationSteps: ["Scanning bucket 'app-logs-archive'...", "Found 1.2M objects eligible for transition", "Defining S3 Lifecycle Rule 'Archive-Old-Logs'...", "Applying transition policy (Standard -> Glacier DA)...", "Policy active. estimated transition time: 24h."]
+      },
+       { 
+        id: "b3", 
+        type: "Nat Gateway", 
+        impact: "$10,000/mo", 
+        risk: "Medium",
+        description: "Consolidate NAT Gateways to reduce data processing fees.",
+        simulationSteps: ["Mapping VPC alignment...", "Identified redundant NATGW in az-1b", "Updating route tables for subnet-private-b...", "Rerouting traffic to NATGW-main...", "Verifying connectivity...", "Decommissioning redundant NAT Gateway."]
+      }
+    ],
+    implementationTime: "1-2 Weeks",
+    autoFixAvailable: false
+  },
+  "path-aggressive": {
+    id: "path-aggressive",
+    title: "Aggressive",
+    riskLevel: "high",
+    potentialSavings: "$41,500",
+    description: "High-impact changes that may require application refactoring or reduced redundancy.",
+    actions: [
+      { 
+        id: "a1", 
+        type: "Architecture", 
+        impact: "$20,000/mo", 
+        risk: "High",
+        description: "Migrate legacy EC2 monoliths to Lambda/Serverless.",
+        simulationSteps: ["Analyzing 'legacy-api' code dependencies...", "Generating Docker container for migration...", "Provisioning AWS Lambda function...", "Creating API Gateway endpoints...", "Migrating traffic (Canary 10%)...", "Migration roadmap generated."]
+      },
+      { 
+        id: "a2", 
+        type: "Dev Environments", 
+        impact: "$11,500/mo", 
+        risk: "Medium",
+        description: "Auto-shutdown all non-prod envs on nights/weekends.",
+        simulationSteps: ["Tagging dev/test resources for 'InstanceScheduler'...", "Configuring schedule: M-F 08:00-19:00", "Deploying AWS Instance Scheduler stack...", "Testing stop/start sequence on 'dev-worker'...", "Schedule active."]
+      },
+      { 
+        id: "a3", 
+        type: "Database", 
+        impact: "$10,000/mo", 
+        risk: "High",
+        description: "Migrate Aurora to DynamoDB for specific high-throughput tables.",
+        simulationSteps: ["Analyzing 'session_store' table access patterns...", "Designing DynamoDB schema (PK: session_id)...", "Starting DMS (Database Migration Service) task...", "Replicating data...", "Verifying data integrity...", "Migration complete."]
+      }
+    ],
+    implementationTime: "1 Month+",
+    autoFixAvailable: false
+  }
+};
 
 export const costIncidents: CostIncident[] = [
   {

@@ -5,14 +5,18 @@ import { CostTimeSeriesChart } from "@/components/charts/cost-chart";
 import { CostIncidentCard } from "@/components/finops/cost-incident-card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { SavingsPathSummary } from "@/components/finops/savings-paths-summary";
-import { costIncidents, savingsPaths, statDetails } from "@/lib/mock-data";
+import { costIncidents, savingsPaths, statDetails, savingsDetails } from "@/lib/mock-data";
 import { DollarSign, Activity, AlertOctagon, TrendingDown } from "lucide-react";
 import { useState } from "react";
 import { StatModal } from "@/components/finops/stat-modal";
+import { SavingsModal } from "@/components/finops/savings-modal";
 
 export default function Home() {
   const [selectedStatId, setSelectedStatId] = useState<string | null>(null);
   const selectedStat = selectedStatId ? statDetails[selectedStatId] : null;
+
+  const [selectedSavingsId, setSelectedSavingsId] = useState<string | null>(null);
+  const selectedSavings = selectedSavingsId ? savingsDetails[selectedSavingsId] : null;
 
   return (
     <div className="space-y-6 pb-6 pt-0">
@@ -20,6 +24,12 @@ export default function Home() {
         stat={selectedStat} 
         onClose={() => setSelectedStatId(null)}
         layoutId={selectedStatId ? `stat-${selectedStatId}` : undefined}
+      />
+
+      <SavingsModal 
+        savings={selectedSavings} 
+        onClose={() => setSelectedSavingsId(null)}
+        layoutId={selectedSavingsId ? `savings-card-${selectedSavingsId}` : undefined}
       />
 
       {/* Header */}
@@ -107,27 +117,33 @@ export default function Home() {
 
         {/* Breakdown or Savings - Spans 1 col */}
         <div className="lg:col-span-1">
-           <SavingsPathSummary paths={savingsPaths} />
+           <SavingsPathSummary 
+              paths={savingsPaths} 
+              onPathSelect={(id) => setSelectedSavingsId(id)}
+           />
         </div>
       </div>
 
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
          {/* Incidents List */}
-         <div className="space-y-4">
-            <div className="flex items-center justify-between mb-2">
+         {/* Incidents List wrapped in GlassCard */}
+         <GlassCard className="p-6 h-full flex flex-col">
+            <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-white">Recent Cost Incidents</h3>
               <a href="/incidents" className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">View all</a>
             </div>
-            {costIncidents.slice(0, 3).map(incident => (
-               <CostIncidentCard 
-                  key={incident.id} 
-                  incident={incident} 
-                  href={`/incidents?open=${incident.id}`}
-                  compact
-               />
-            ))}
-         </div>
+            <div className="space-y-3 flex-1">
+               {costIncidents.slice(0, 3).map(incident => (
+                  <CostIncidentCard 
+                     key={incident.id} 
+                     incident={incident} 
+                     href={`/incidents?open=${incident.id}`}
+                     compact
+                  />
+               ))}
+            </div>
+         </GlassCard>
 
          {/* What-if Simulator Widget (Clean Version) */}
          <div className="bg-zinc-900/40 rounded-xl border border-white/5 p-6 flex flex-col items-center justify-center text-center">
