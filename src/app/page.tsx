@@ -1,14 +1,27 @@
+"use client";
+
 import { StatTile } from "@/components/ui/stat-tile";
 import { CostTimeSeriesChart } from "@/components/charts/cost-chart";
 import { CostIncidentCard } from "@/components/finops/cost-incident-card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { SavingsPathSummary } from "@/components/finops/savings-paths-summary";
-import { costIncidents, savingsPaths } from "@/lib/mock-data";
+import { costIncidents, savingsPaths, statDetails } from "@/lib/mock-data";
 import { DollarSign, Activity, AlertOctagon, TrendingDown } from "lucide-react";
+import { useState } from "react";
+import { StatModal } from "@/components/finops/stat-modal";
 
 export default function Home() {
+  const [selectedStatId, setSelectedStatId] = useState<string | null>(null);
+  const selectedStat = selectedStatId ? statDetails[selectedStatId] : null;
+
   return (
     <div className="space-y-6 pb-6 pt-0">
+      <StatModal 
+        stat={selectedStat} 
+        onClose={() => setSelectedStatId(null)}
+        layoutId={selectedStatId ? `stat-${selectedStatId}` : undefined}
+      />
+
       {/* Header */}
       {/* Header Actions - Pulled up */}
       {/* Header Actions - Pulled up */}
@@ -40,36 +53,48 @@ export default function Home() {
       {/* Stats Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatTile 
+           id="total-cloud-spend"
            title="Total Cloud Spend" 
            value="$124,380" 
            subtext="+12% vs previous 30 days" 
            trend="up" 
            trendValue="12%"
            icon={DollarSign}
+           onClick={() => setSelectedStatId("total-cloud-spend")}
+           layoutId="stat-total-cloud-spend"
         />
         <StatTile 
+           id="k8s-ai-spend"
            title="K8s + AI Spend" 
            value="$76,420" 
            subtext="61% of total spend" 
            trend="up"
            trendValue="4%"
            icon={Activity}
+           onClick={() => setSelectedStatId("k8s-ai-spend")}
+           layoutId="stat-k8s-ai-spend"
         />
         <StatTile 
+           id="active-incidents"
            title="Active Incidents" 
            value="3" 
            subtext="1 high impact detected" 
            trend="up"
            trendValue="+2"
            icon={AlertOctagon}
+           onClick={() => setSelectedStatId("active-incidents")}
+           layoutId="stat-active-incidents"
         />
         <StatTile 
+           id="potential-savings"
            title="Potential Savings" 
            value="$18,200" 
            subtext="Safe to implement now" 
            trend="down"
            trendValue="Reliability Safe"
            icon={TrendingDown}
+           onClick={() => setSelectedStatId("potential-savings")}
+           layoutId="stat-potential-savings"
         />
       </div>
 

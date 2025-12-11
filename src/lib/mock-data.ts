@@ -138,6 +138,95 @@ export const services: Service[] = [
     potentialSavings: 8000,
   },
 ];
+// Stat Details Data
+export interface StatDetail {
+  id: string;
+  title: string;
+  value: string;
+  subtext: string;
+  trend?: "up" | "down";
+  trendValue?: string;
+  breakdown: { label: string; value: string; color: string }[];
+  insights: string[];
+  actionLabel: string;
+}
+
+export const statDetails: Record<string, StatDetail> = {
+  "total-cloud-spend": {
+    id: "total-cloud-spend",
+    title: "Total Cloud Spend",
+    value: "$124,380",
+    subtext: "+12% vs previous 30 days",
+    trend: "up",
+    trendValue: "12%",
+    breakdown: [
+      { label: "Compute (EC2, GKE)", value: "$68,400", color: "bg-indigo-500" },
+      { label: "Storage (S3, EBS)", value: "$24,100", color: "bg-blue-500" },
+      { label: "Database (RDS)", value: "$18,500", color: "bg-emerald-500" },
+      { label: "Networking", value: "$13,380", color: "bg-amber-500" },
+    ],
+    insights: [
+      "Compute spend increased by 15% due to new LLM training jobs.",
+      "Storage costs are stable.",
+      "Networking spike detected in region us-east-1."
+    ],
+    actionLabel: "Analyze Compute Spend"
+  },
+  "k8s-ai-spend": {
+    id: "k8s-ai-spend",
+    title: "K8s + AI Spend",
+    value: "$76,420",
+    subtext: "61% of total spend",
+    trend: "up",
+    trendValue: "4%",
+    breakdown: [
+      { label: "GPU Clusters (A100s)", value: "$45,200", color: "bg-rose-500" },
+      { label: "Standard K8s Nodes", value: "$22,100", color: "bg-indigo-500" },
+      { label: "Spot Instances", value: "$9,120", color: "bg-purple-500" },
+    ],
+    insights: [
+      "GPU urgency is high; 20% of GPU hours are idle.",
+      "Spot instance usage increased, saving ~$4k this month."
+    ],
+    actionLabel: "Optimize GPU Usage"
+  },
+  "active-incidents": {
+    id: "active-incidents",
+    title: "Active Incidents",
+    value: "3",
+    subtext: "1 high impact detected",
+    trend: "up",
+    trendValue: "+2",
+    breakdown: [
+      { label: "High Severity", value: "1", color: "bg-rose-500" },
+      { label: "Medium Severity", value: "2", color: "bg-amber-500" },
+      { label: "Low Severity", value: "0", color: "bg-emerald-500" },
+    ],
+    insights: [
+      "Critical incident on llm-inference service driving costs up.",
+      "2 warnings on storage limits."
+    ],
+    actionLabel: "View Incidents"
+  },
+  "potential-savings": {
+    id: "potential-savings",
+    title: "Potential Savings",
+    value: "$18,200",
+    subtext: "Safe to implement now",
+    trend: "down",
+    trendValue: "Reliability Safe",
+    breakdown: [
+      { label: "Idle Resources", value: "$8,500", color: "bg-emerald-500" },
+      { label: "Over-provisioned", value: "$6,200", color: "bg-blue-500" },
+      { label: "Spot Opportunities", value: "$3,500", color: "bg-amber-500" },
+    ],
+    insights: [
+      "Biggest opportunity: Downsize 15 oversized RDS instances.",
+      "Deleting unattached EBS volumes saves $1.2k immediately."
+    ],
+    actionLabel: "Apply All Savings"
+  }
+};
 
 export const costIncidents: CostIncident[] = [
   {
