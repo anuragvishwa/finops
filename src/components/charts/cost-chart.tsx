@@ -16,13 +16,17 @@ const data = [
 import { ClientWrapper } from "../ui/client-wrapper";
 
 
-export function CostTimeSeriesChart() {
+interface CostTimeSeriesChartProps {
+  onClick?: () => void;
+}
+
+export function CostTimeSeriesChart({ onClick }: CostTimeSeriesChartProps) {
   return (
-    <GlassCard className="flex flex-col">
+    <GlassCard className="flex flex-col relative group cursor-pointer transition-all hover:border-indigo-500/30" onClick={onClick}>
        <div className="flex items-center justify-between mb-6 px-1">
          <div>
-            <h3 className="text-lg font-semibold text-white">Cost Trend</h3>
-            <p className="text-sm text-zinc-400">Daily spend analysis</p>
+            <h3 className="text-lg font-semibold text-white group-hover:text-indigo-400 transition-colors">Cost Trend</h3>
+            <p className="text-sm text-zinc-400">Daily spend analysis <span className="text-xs text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity ml-2">(Click for details)</span></p>
          </div>
        </div>
        

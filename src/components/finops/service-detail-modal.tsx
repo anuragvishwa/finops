@@ -10,26 +10,27 @@ import { useState, useEffect } from "react";
 interface ServiceDetailModalProps {
   service: Service | null;
   onClose: () => void;
+  onNavigate?: (id: string) => void;
   layoutId?: string;
 }
 
 // Mock extra data for the modal
 const MOCK_DEPENDENCIES = [
-    { id: "upstream-1", name: "auth-service", type: "service", status: "healthy", costImpact: "$240/mo", latency: "12ms" },
-    { id: "upstream-2", name: "api-gateway", type: "gateway", status: "healthy", costImpact: "$850/mo", latency: "5ms" },
-    { id: "downstream-1", name: "audit-logger", type: "queue", status: "warning", costImpact: "$1.2k/mo", latency: "45ms" },
-    { id: "downstream-2", name: "user-db", type: "db", status: "healthy", costImpact: "$3.4k/mo", latency: "2ms" },
+    { id: "svc-auth", name: "auth-service", type: "service", status: "healthy", costImpact: "$240/mo", latency: "12ms" },
+    { id: "svc-gateway", name: "api-gateway", type: "gateway", status: "healthy", costImpact: "$850/mo", latency: "5ms" },
+    { id: "svc-audit", name: "audit-logger", type: "queue", status: "warning", costImpact: "$1.2k/mo", latency: "45ms" },
+    { id: "svc-db", name: "user-db", type: "db", status: "healthy", costImpact: "$3.4k/mo", latency: "2ms" },
 ];
 
 const INITIAL_POSITIONS = {
     "center": { x: 350, y: 200 },
-    "upstream-1": { x: 200, y: 50 },
-    "upstream-2": { x: 500, y: 50 },
-    "downstream-1": { x: 200, y: 350 },
-    "downstream-2": { x: 500, y: 350 },
+    "svc-auth": { x: 200, y: 50 },
+    "svc-gateway": { x: 500, y: 50 },
+    "svc-audit": { x: 200, y: 350 },
+    "svc-db": { x: 500, y: 350 },
 };
 
-function DependencyGraph({ service }: { service: Service }) {
+function DependencyGraph({ service, onNavigate }: { service: Service, onNavigate?: (id: string) => void }) {
     const [positions, setPositions] = useState(INITIAL_POSITIONS);
     
     const updatePosition = (id: string, x: number, y: number) => {
@@ -79,6 +80,7 @@ function DependencyGraph({ service }: { service: Service }) {
                     data={dep} 
                     initialPos={INITIAL_POSITIONS[dep.id as keyof typeof INITIAL_POSITIONS]} 
                     onDrag={updatePosition}
+                    onNavigate={onNavigate}
                 />
              ))}
 
@@ -99,6 +101,7 @@ function DependencyGraph({ service }: { service: Service }) {
                     data={dep} 
                     initialPos={INITIAL_POSITIONS[dep.id as keyof typeof INITIAL_POSITIONS]} 
                     onDrag={updatePosition}
+                    onNavigate={onNavigate}
                 />
              ))}
         </div>
@@ -127,12 +130,17 @@ function CurvedEdge({ start, end }: { start: {x:number, y:number}, end: {x:numbe
     );
 }
 
-function DraggableNode({ id, data, initialPos, onDrag, isTarget, serviceType }: any) {
+function DraggableNode({ id, data, initialPos, onDrag, isTarget, serviceType, onNavigate }: any) {
     return (
         <motion.div
             drag
             dragMomentum={false}
             dragElastic={0.1}
+            onTap={() => {
+                if (!isTarget && onNavigate) {
+                    onNavigate(id);
+                }
+            }}
             onDrag={(event, info) => {
                  // We don't strictly need to track exact pixels for the lines to look "okay" if we just used ref-based lines, 
                  // but for true SVG connection we need state. 
@@ -208,7 +216,7 @@ const MOCK_LOGS = [
     { ts: "10:42:28", level: "error", msg: "Connection timeout to audit-logger" },
 ];
 
-export function ServiceDetailModal({ service, onClose, layoutId }: ServiceDetailModalProps) {
+export function ServiceDetailModal({ service, onClose, onNavigate, layoutId }: ServiceDetailModalProps) {
   const [activeTab, setActiveTab] = useState<"overview" | "dependencies" | "logs">("overview");
   const [isScanning, setIsScanning] = useState(true);
 
@@ -390,7 +398,7 @@ export function ServiceDetailModal({ service, onClose, layoutId }: ServiceDetail
                                     exit={{ opacity: 0, y: -10 }}
                                     className="relative z-10 h-full min-h-[400px] flex items-center justify-center"
                                 >
-                                    <DependencyGraph service={service} />
+                                    <DependencyGraph service={service} onNavigate={onNavigate} />
                                 </motion.div>
                             )}
 

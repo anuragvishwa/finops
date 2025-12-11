@@ -32,10 +32,11 @@ interface SavingsModalProps {
   savings: SavingsPathDetail | null;
   onClose: () => void;
   layoutId?: string;
+  initialActionId?: string;
 }
 
 
-export function SavingsModal({ savings, onClose, layoutId }: SavingsModalProps) {
+export function SavingsModal({ savings, onClose, layoutId, initialActionId }: SavingsModalProps) {
   // Main State
   const [activeActionId, setActiveActionId] = useState<string | null>(null);
   const [completedActionIds, setCompletedActionIds] = useState<string[]>([]);
@@ -55,12 +56,12 @@ export function SavingsModal({ savings, onClose, layoutId }: SavingsModalProps) 
   // Reset state when modal opens
   useEffect(() => {
     if (savings) {
-      setActiveActionId(null);
-      setExecutionState("plan");
+      setActiveActionId(initialActionId || null);
+      setExecutionState(initialActionId ? "plan" : "plan");
       setCompletedActionIds([]);
       setExecutionLog([]);
     }
-  }, [savings?.id]);
+  }, [savings?.id, initialActionId]);
 
   const activeAction = savings?.actions.find(a => a.id === activeActionId);
 
@@ -339,9 +340,9 @@ export function SavingsModal({ savings, onClose, layoutId }: SavingsModalProps) 
                                                     >
                                                         {/* Status Dot */}
                                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 z-10 transition-all duration-300 ${
-                                                            isLatest && executionState !== 'success'? 'scale-110 shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'scale-100'
+                                                            isLatest ? 'scale-110 shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'scale-100'
                                                         }`}>
-                                                            {isLatest && executionState !== 'success' ? (
+                                                            {isLatest ? (
                                                                 <div className="relative w-10 h-10 flex items-center justify-center">
                                                                     <div className="absolute inset-0 bg-indigo-500/20 rounded-full animate-ping" />
                                                                     <div className="relative w-4 h-4 bg-indigo-500 rounded-full shadow-lg" />
@@ -356,17 +357,17 @@ export function SavingsModal({ savings, onClose, layoutId }: SavingsModalProps) 
                                                         {/* Text */}
                                                         <div className="flex-1 pt-1.5">
                                                             <div className="flex items-center justify-between mb-0.5">
-                                                                <h4 className={`text-xs font-bold uppercase tracking-wider ${isLatest && executionState !== 'success' ? 'text-indigo-400' : 'text-emerald-400'}`}>
+                                                                <h4 className={`text-xs font-bold uppercase tracking-wider ${isLatest ? 'text-indigo-400' : 'text-emerald-400'}`}>
                                                                     Step {idx + 1}
                                                                 </h4>
-                                                                {isLatest && executionState !== 'success' && (
+                                                                {isLatest && (
                                                                     <span className="text-[10px] text-indigo-400/70 font-mono animate-pulse">Running...</span>
                                                                 )}
                                                             </div>
                                                             
                                                             {/* Typewriter Description */}
                                                             <p className="text-sm font-mono leading-snug break-words">
-                                                                {isLatest && executionState !== 'success' ? (
+                                                                {isLatest ? (
                                                                     <TypewriterText text={step} />
                                                                 ) : (
                                                                     <span className="text-zinc-300">{step}</span>

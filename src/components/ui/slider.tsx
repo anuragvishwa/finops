@@ -1,66 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { cn } from "@/lib/utils";
 
 interface SliderProps {
-  label: string;
-  min: number;
-  max: number;
+  value: number[];
+  onValueChange: (value: number[]) => void;
+  min?: number;
+  max?: number;
   step?: number;
-  defaultValue?: number;
-  onChange?: (value: number) => void;
+  className?: string;
+  // Deprecated/unused props from old version kept optional for safety if needed elsewhere (though verified unused)
+  label?: string; 
   unit?: string;
 }
 
 export function Slider({
-  label,
-  min,
-  max,
+  value,
+  onValueChange,
+  min = 0,
+  max = 100,
   step = 1,
-  defaultValue = min,
-  onChange,
-  unit = ""
+  className,
+  ...props
 }: SliderProps) {
-  const [value, setValue] = useState(defaultValue);
+  const currentValue = value[0] ?? min;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(e.target.value);
-    setValue(newValue);
-    onChange?.(newValue);
+    onValueChange([newValue]);
   };
 
-  const percentage = ((value - min) / (max - min)) * 100;
+  const percentage = ((currentValue - min) / (max - min)) * 100;
 
   return (
-    <div className="space-y-3">
-      <div className="flex justify-between items-center text-sm">
-        <label className="text-slate-300 font-medium">{label}</label>
-        <span className="text-fuchsia-400 font-bold bg-fuchsia-400/10 px-2 py-0.5 rounded">
-           {value}{unit}
-        </span>
-      </div>
-      <div className="relative w-full h-2 rounded-full bg-slate-800">
+    <div className={cn("relative flex w-full touch-none select-none items-center", className)} {...props}>
+      <div className="relative h-2 w-full grow overflow-hidden rounded-full bg-zinc-800">
         <div 
-           className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-fuchsia-600 to-rose-500"
+           className="absolute h-full bg-fuchsia-600" 
            style={{ width: `${percentage}%` }}
         />
-        <input 
+      </div>
+      <input 
           type="range" 
           min={min} 
           max={max} 
           step={step} 
-          value={value}
+          value={currentValue}
           onChange={handleChange}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        />
-        {/* Thumb pseudo-element styling custom is hard in raw generic CSS without plugin, 
-            so we trust standard browser interaction on transparent input over visible track */}
-        <div 
-            className="absolute top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-white border-2 border-fuchsia-500 shadow-lg pointer-events-none"
-            style={{ left: `calc(${percentage}% - 8px)` }}
-        />
-      </div>
+      />
+      <div 
+        className="block h-5 w-5 rounded-full border-2 border-fuchsia-500 bg-black ring-offset-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 pointer-events-none absolute"
+        style={{ left: `calc(${percentage}% - 10px)` }}
+      />
     </div>
   );
 }

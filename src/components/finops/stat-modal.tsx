@@ -7,11 +7,12 @@ import { StatDetail } from "@/lib/mock-data";
 
 interface StatModalProps {
   stat: StatDetail | null;
+  isOpen?: boolean;
   onClose: () => void;
   layoutId?: string;
 }
 
-export function StatModal({ stat, onClose, layoutId }: StatModalProps) {
+export function StatModal({ stat, isOpen, onClose, layoutId }: StatModalProps) {
   return (
     <AnimatePresence>
       {stat && (

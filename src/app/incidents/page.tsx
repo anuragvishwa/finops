@@ -55,7 +55,7 @@ function IncidentsContent() {
          layoutId={selectedIncident ? `incident-${selectedIncident.id}` : undefined}
       />
       
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col gap-6">
         <div>
           <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
             Cost Incidents
@@ -64,44 +64,46 @@ function IncidentsContent() {
             Detect and resolve cloud spend anomalies before they break your budget.
           </p>
         </div>
-        <div className="flex items-center space-x-3">
-           <GlassCard noPadding className="flex items-center px-3 py-2 space-x-2 shrink-0 bg-zinc-900/50 border-white/5">
+
+        {/* Controls Row: Search + Filters */}
+        <div className="flex items-center justify-between gap-4 bg-zinc-900/40 p-1.5 rounded-2xl border border-white/5 backdrop-blur-sm">
+           {/* Search */}
+           <div className="flex items-center px-3 py-2 space-x-2 bg-transparent shrink-0">
               <Search className="h-4 w-4 text-zinc-500" />
               <input 
                 type="text" 
                 placeholder="Search incidents..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-none text-sm text-white focus:outline-none placeholder:text-zinc-600 w-32 md:w-48"
+                className="bg-transparent border-none text-sm text-white focus:outline-none placeholder:text-zinc-600 w-full md:w-64"
               />
-           </GlassCard>
-           {/* Placeholder buttons for future advanced config */}
-           <div className="hidden md:flex space-x-3">
-              <button className="p-2.5 rounded-lg bg-zinc-800 border border-white/5 hover:bg-zinc-700 transition-colors shrink-0 text-zinc-400 hover:text-white cursor-not-allowed opacity-50" title="Advanced Filters (Coming Soon)">
-                  <Filter className="h-5 w-5" />
-              </button>
-              <button className="p-2.5 rounded-lg bg-zinc-800 border border-white/5 hover:bg-zinc-700 transition-colors shrink-0 text-zinc-400 hover:text-white cursor-not-allowed opacity-50" title="View Settings (Coming Soon)">
-                  <SlidersHorizontal className="h-5 w-5" />
-              </button>
            </div>
-        </div>
-      </div>
 
-      {/* Filter Tabs Mock */}
-      <div className="relative z-30 flex items-center space-x-4 overflow-x-auto pb-2 scrollbar-hide">
-         {['All Incidents', 'High Severity', 'Production', 'K8s', 'AI/GPU'].map((filter) => (
-           <button 
-             key={filter}
-             onClick={() => setActiveFilter(filter)}
-             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all whitespace-nowrap shrink-0 ${
-               activeFilter === filter 
-               ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' 
-               : 'bg-zinc-800/50 text-zinc-400 border border-white/5 hover:bg-zinc-800'
-             }`}
-           >
-             {filter}
+           {/* Divider */}
+           <div className="h-6 w-px bg-white/10 mx-2 hidden md:block" />
+
+           {/* Filter Tabs */}
+           <div className="flex items-center space-x-1 overflow-x-auto scrollbar-hide">
+             {['All Incidents', 'High Severity', 'Production', 'K8s', 'AI/GPU'].map((filter) => (
+               <button 
+                 key={filter}
+                 onClick={() => setActiveFilter(filter)}
+                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
+                   activeFilter === filter 
+                   ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.15)]' 
+                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5 border border-transparent'
+                 }`}
+               >
+                 {filter}
+               </button>
+             ))}
+           </div>
+
+           {/* Advanced Filters Button (Mock) */}
+           <button className="p-2 rounded-lg hover:bg-white/5 text-zinc-500 hover:text-white transition-colors ml-auto border border-transparent hover:border-white/5">
+              <Filter className="h-4 w-4" />
            </button>
-         ))}
+        </div>
       </div>
 
       <div className="space-y-4">

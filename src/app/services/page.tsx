@@ -35,7 +35,7 @@ export default function ServicesPage() {
   return (
     <div className="space-y-8 pb-10">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col gap-4">
         <div>
           <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
             Service Catalog
@@ -44,27 +44,34 @@ export default function ServicesPage() {
             Monitor cost, health, and ownership of your microservices.
           </p>
         </div>
-        <div className="flex items-center space-x-3">
-           <GlassCard noPadding className="flex items-center px-3 py-2 space-x-2 shrink-0 bg-zinc-900/50 border-white/5">
+
+        {/* Controls Row: Search + Filters */}
+        <div className="flex items-center gap-4 bg-zinc-900/40 p-1.5 rounded-2xl border border-white/5 backdrop-blur-sm">
+           {/* Search */}
+           <div className="flex items-center px-3 py-2 space-x-2 bg-transparent shrink-0">
               <Search className="h-4 w-4 text-zinc-500" />
               <input 
                 type="text" 
                 placeholder="Search services..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-none text-sm text-white focus:outline-none placeholder:text-zinc-600 w-32 md:w-48"
+                className="bg-transparent border-none text-sm text-white focus:outline-none placeholder:text-zinc-600 w-full md:w-48"
               />
-           </GlassCard>
-           
-           <div className="flex bg-zinc-900/50 p-1 rounded-lg border border-white/5">
+           </div>
+
+           {/* Divider */}
+           <div className="h-6 w-px bg-white/10 mx-2 hidden md:block" />
+
+           {/* Tier Filters */}
+           <div className="flex items-center space-x-1 overflow-x-auto scrollbar-hide">
               {['All Tiers', 'Tier 1', 'Tier 2', 'Tier 3'].map(tier => (
                  <button
                     key={tier}
                     onClick={() => setActiveTier(tier)}
-                    className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
                        activeTier === tier 
-                       ? 'bg-zinc-700 text-white shadow-sm' 
-                       : 'text-zinc-500 hover:text-zinc-300'
+                       ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.15)]' 
+                       : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5 border border-transparent'
                     }`}
                  >
                     {tier}
@@ -79,6 +86,17 @@ export default function ServicesPage() {
         {filteredServices.map((service, i) => {
            const team = teams.find(t => t.id === service.teamId);
            
+           // Tier-specific styling
+           const tierStyles = {
+             'tier-1': 'from-indigo-500/10 via-purple-500/5 to-zinc-900/80 border-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.05)] hover:shadow-[0_0_40px_rgba(99,102,241,0.2)] hover:border-indigo-500/40',
+             'tier-2': 'from-blue-500/10 via-cyan-500/5 to-zinc-900/80 border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.05)] hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] hover:border-blue-500/40',
+             'tier-3': 'from-emerald-500/10 via-teal-500/5 to-zinc-900/80 border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.05)] hover:shadow-[0_0_40px_rgba(16,185,129,0.2)] hover:border-emerald-500/40',
+           };
+
+           const currentStyle = tierStyles[service.tier as keyof typeof tierStyles] || tierStyles['tier-3'];
+           const accentColor = service.tier === 'tier-1' ? 'text-indigo-400' : service.tier === 'tier-2' ? 'text-blue-400' : 'text-emerald-400';
+           const bgAccent = service.tier === 'tier-1' ? 'bg-indigo-500' : service.tier === 'tier-2' ? 'bg-blue-500' : 'bg-emerald-500';
+
            return (
               <motion.div
                 key={service.id}
@@ -87,66 +105,81 @@ export default function ServicesPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.05 }}
                 onClick={() => setSelectedService(service)}
+                className="group relative"
               >
-                 <GlassCard variant="hover" className="h-full flex flex-col group cursor-pointer relative overflow-hidden ring-1 ring-white/5 hover:ring-indigo-500/30 transition-all duration-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.1)] bg-gradient-to-br from-zinc-900/80 to-zinc-950/80">
-                    {/* Top Accent */}
+                 {/* Ambient Background Glow */}
+                 <div className={`absolute -inset-0.5 rounded-2xl bg-gradient-to-b ${service.tier === 'tier-1' ? 'from-indigo-500/20 to-purple-600/20' : service.tier === 'tier-2' ? 'from-blue-500/20 to-cyan-600/20' : 'from-emerald-500/20 to-teal-600/20'} opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500`} />
 
+                 <GlassCard noPadding className={`h-full flex flex-col cursor-pointer relative overflow-hidden transition-all duration-500 bg-gradient-to-br ${currentStyle}`}>
+                    
+                    {/* Grid Pattern Overlay */}
+                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
+                       backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+                       backgroundSize: '24px 24px'
+                    }} />
 
-                    <div className="flex items-start justify-between mb-6">
-                       <div className="flex items-center space-x-4">
-                          <div className={`p-3 rounded-xl bg-zinc-900 border border-white/5 group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition-all duration-500 shadow-lg`}>
-                             <Box className="h-6 w-6 text-zinc-500 group-hover:text-indigo-400 transition-colors" />
-                          </div>
-                          <div>
-                             <h3 className="text-xl font-bold text-white leading-tight group-hover:text-indigo-300 transition-colors tracking-tight">{service.name}</h3>
-                             <p className="text-xs text-zinc-500 font-mono mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">{service.id}</p>
-                          </div>
-                       </div>
-                       <Badge variant="outline" className="opacity-50 group-hover:opacity-100 border-white/5 bg-white/5">
-                          {service.tier.replace('-', ' ').toUpperCase()}
-                       </Badge>
-                    </div>
-
-                    <div className="space-y-5 flex-1">
-                       {/* Metrics */}
-                       <div className="grid grid-cols-2 gap-3">
-                          <div className="p-3 rounded-lg bg-black/20 border border-white/5 group-hover:border-white/10 transition-colors">
-                             <p className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Monthly Cost</p>
-                             <p className="text-base font-bold text-white font-mono">${service.monthlyCost.toLocaleString()}</p>
-                          </div>
-                          <div className="p-3 rounded-lg bg-black/20 border border-white/5 group-hover:border-white/10 transition-colors">
-                             <p className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Incidents (30d)</p>
-                             <div className="flex items-center justify-between">
-                                <span className={`text-base font-bold ${service.incidentsLast30d > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
-                                   {service.incidentsLast30d}
-                                </span>
-                                {service.incidentsLast30d > 0 ? (
-                                   <AlertTriangle className="h-4 w-4 text-rose-500 opacity-80" />
-                                ) : (
-                                   <ShieldCheck className="h-4 w-4 text-emerald-500 opacity-80" />
-                                )}
+                    <div className="p-6 flex flex-col h-full relative z-10">
+                       <div className="flex items-start justify-between mb-6">
+                          <div className="flex items-center space-x-4">
+                             <div className={`p-3 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 group-hover:scale-105 transition-transform duration-300 shadow-inner`}>
+                                <Box className={`h-6 w-6 ${accentColor} transition-colors`} />
+                             </div>
+                             <div>
+                                <h3 className="text-xl font-bold text-white leading-tight group-hover:text-white transition-colors tracking-tight">{service.name}</h3>
+                                <p className="text-xs text-zinc-500 font-mono mt-0.5 group-hover:text-zinc-400 transition-colors">{service.id}</p>
                              </div>
                           </div>
+                          <Badge variant="outline" className={`backdrop-blur-md border-white/10 ${service.tier === 'tier-1' ? 'bg-indigo-500/10 text-indigo-300' : service.tier === 'tier-2' ? 'bg-blue-500/10 text-blue-300' : 'bg-emerald-500/10 text-emerald-300'}`}>
+                             {service.tier.replace('-', ' ').toUpperCase()}
+                          </Badge>
                        </div>
 
-                       {/* Team Info */}
-                       {team && (
-                          <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
-                             <div className="flex items-center space-x-2.5">
-                                <div className={`h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white shadow-md ${team.avatarColor}`}>
-                                   {team.name.substring(0, 2).toUpperCase()}
+                       <div className="space-y-4 flex-1">
+                          {/* Metrics */}
+                          <div className="grid grid-cols-2 gap-3">
+                             <div className="p-3 rounded-xl bg-black/40 border border-white/5 group-hover:border-white/10 transition-colors relative overflow-hidden">
+                                <div className={`absolute top-0 left-0 w-1 h-full ${bgAccent} opacity-20`} />
+                                <p className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Monthly Cost</p>
+                                <p className="text-lg font-bold text-white font-mono tracking-tight">${service.monthlyCost.toLocaleString()}</p>
+                             </div>
+                             <div className="p-3 rounded-xl bg-black/40 border border-white/5 group-hover:border-white/10 transition-colors relative overflow-hidden">
+                                <p className="text-[10px] text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Incidents (30d)</p>
+                                <div className="flex items-center justify-between">
+                                   <span className={`text-lg font-bold ${service.incidentsLast30d > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                                      {service.incidentsLast30d}
+                                   </span>
+                                   {service.incidentsLast30d > 0 ? (
+                                      <div className="h-6 w-6 rounded-full bg-rose-500/10 flex items-center justify-center animate-pulse">
+                                         <AlertTriangle className="h-3.5 w-3.5 text-rose-500" />
+                                      </div>
+                                   ) : (
+                                       <div className="h-6 w-6 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                                         <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+                                      </div>
+                                   )}
                                 </div>
-                                <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-200 transition-colors">{team.name}</span>
                              </div>
-                             <span className="text-[10px] text-zinc-500 flex items-center bg-white/5 px-2 py-1 rounded-full border border-white/5">
-                                {service.language} <div className={`ml-1.5 h-1.5 w-1.5 rounded-full shadow-[0_0_5px_currentColor] ${
-                                   service.language === 'python' ? 'bg-blue-400 text-blue-400' :
-                                   service.language === 'go' ? 'bg-cyan-400 text-cyan-400' :
-                                   service.language === 'rust' ? 'bg-orange-400 text-orange-400' : 'bg-yellow-400 text-yellow-400'
-                                }`} />
-                             </span>
                           </div>
-                       )}
+
+                          {/* Team Info */}
+                          {team && (
+                             <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
+                                <div className="flex items-center space-x-2.5">
+                                   <div className={`h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-bold text-white shadow-lg ring-1 ring-white/10 ${team.avatarColor}`}>
+                                      {team.name.substring(0, 2).toUpperCase()}
+                                   </div>
+                                   <span className="text-xs font-medium text-zinc-400 group-hover:text-zinc-200 transition-colors">{team.name}</span>
+                                </div>
+                                <span className="text-[10px] text-zinc-500 flex items-center bg-white/5 px-2.5 py-1 rounded-full border border-white/5 group-hover:border-white/10 transition-colors">
+                                   {service.language} <div className={`ml-1.5 h-1.5 w-1.5 rounded-full shadow-[0_0_8px_currentColor] ${
+                                      service.language === 'python' ? 'bg-blue-400 text-blue-400' :
+                                      service.language === 'go' ? 'bg-cyan-400 text-cyan-400' :
+                                      service.language === 'rust' ? 'bg-orange-400 text-orange-400' : 'bg-yellow-400 text-yellow-400'
+                                   }`} />
+                                </span>
+                             </div>
+                          )}
+                       </div>
                     </div>
                  </GlassCard>
               </motion.div>
@@ -169,7 +202,11 @@ export default function ServicesPage() {
 
       <ServiceDetailModal 
         service={selectedService} 
-        onClose={() => setSelectedService(null)} 
+        onClose={() => setSelectedService(null)}
+        onNavigate={(id) => {
+            const target = services.find(s => s.id === id);
+            if (target) setSelectedService(target);
+        }} 
         layoutId={selectedService ? `card-${selectedService.id}` : undefined}
       />
     </div>
