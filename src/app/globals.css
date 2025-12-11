@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Lumniverse: Clean Professional Dark Theme */
+  --background: #09090b; /* Zinc 950 */
+  --foreground: #f4f4f5; /* Zinc 100 */
+  
+  /* Primary: Vibrant but Controlled Blue/Indigo */
+  --primary: #6366f1; /* Indigo 500 */
+  --primary-foreground: #ffffff;
+  
+  /* Secondary: Teal */
+  --secondary: #14b8a6; /* Teal 500 */
+  --secondary-foreground: #ffffff;
+  
+  /* Accent: Violet */
+  --accent: #8b5cf6; /* Violet 500 */
+  --accent-foreground: #ffffff;
+  
+  --muted: #27272a; /* Zinc 800 */
+  --muted-foreground: #a1a1aa; /* Zinc 400 */
+  
+  /* Clean Glass */
+  --card: rgba(24, 24, 27, 0.6); 
+  --card-foreground: #fafafa;
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  
+  /* Status Colors */
+  --success: #10b981; /* Emerald 500 */
+  --warning: #f59e0b; /* Amber 500 */
+  --destructive: #ef4444; /* Red 500 */
+  
+  /* Glass Utilities - Cleaner, less blurry/glowy */
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(9, 9, 11, 0.7);
+  --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  --white: #ffffff;
+  --black: #000000;
+  --transparent: transparent;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
+  
+  /* Removed Aurora Animation */
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Very subtle gradient, almost black */
+  background-image: linear-gradient(to bottom, #09090b, #000000);
+  background-attachment: fixed;
+}
+
+/* Custom Utilities */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px); /* Reduced blur */
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-hover:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(217, 70, 239, 0.1); /* Subtle glow on hover */
+}
+
+.glass-panel {
+  background: rgba(10, 10, 20, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
