@@ -216,20 +216,21 @@ export function SearchPalette({ isOpen, onClose }: SearchPaletteProps) {
                                                <button
                                                  key={result.id}
                                                  onClick={() => handleSelect(result)}
-                                                 className="w-full text-left flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                                                 className="w-full text-left flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors group/result"
                                                >
-                                                   <div className={`mt-0.5 h-8 w-8 rounded-lg bg-zinc-900 flex items-center justify-center ring-1 ring-white/5 group-hover:ring-${result.color.split('-')[1]}-500/50 transition-all`}>
+                                                   <div className={`mt-0.5 h-8 w-8 rounded-lg bg-zinc-900 flex items-center justify-center ring-1 ring-white/5 group-hover/result:ring-${result.color.split('-')[1]}-500/50 transition-all`}>
                                                        <Icon className={`h-4 w-4 ${result.color}`} />
                                                    </div>
                                                    <div className="flex-1">
                                                        <div className="flex items-center justify-between">
-                                                           <h4 className="text-sm font-medium text-white group-hover:text-fuchsia-300 transition-colors">
+                                                           <h4 className="text-sm font-medium text-white group-hover/result:text-fuchsia-300 transition-colors">
                                                                {result.title}
                                                            </h4>
                                                            <span className="text-[10px] text-zinc-600 font-mono border border-white/5 px-1.5 rounded">{result.type}</span>
                                                        </div>
                                                        <p className="text-xs text-zinc-500 line-clamp-1">{result.description}</p>
                                                    </div>
+                                                   <ArrowRight className="h-4 w-4 text-zinc-600 opacity-0 group-hover/result:opacity-100 -translate-x-2 group-hover/result:translate-x-0 transition-all" />
                                                </button>
                                            )
                                        })}
@@ -281,14 +282,14 @@ export function SearchPalette({ isOpen, onClose }: SearchPaletteProps) {
                                        <button
                                          key={result.id}
                                          onClick={() => handleSelect(result)}
-                                         className="w-full text-left flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                                         className="w-full text-left flex items-start space-x-3 p-3 rounded-lg hover:bg-white/5 transition-colors group/result"
                                        >
-                                           <div className={`mt-0.5 h-8 w-8 rounded-lg bg-zinc-900 flex items-center justify-center ring-1 ring-white/5 group-hover:ring-${result.color.split('-')[1]}-500/50 transition-all`}>
+                                           <div className={`mt-0.5 h-8 w-8 rounded-lg bg-zinc-900 flex items-center justify-center ring-1 ring-white/5 group-hover/result:ring-${result.color.split('-')[1]}-500/50 transition-all`}>
                                                <Icon className={`h-4 w-4 ${result.color}`} />
                                            </div>
                                            <div className="flex-1">
                                                <div className="flex items-center justify-between">
-                                                   <h4 className="text-sm font-medium text-white group-hover:text-fuchsia-300 transition-colors">
+                                                   <h4 className="text-sm font-medium text-white group-hover/result:text-fuchsia-300 transition-colors">
                                                        {result.title}
                                                    </h4>
                                                    {result.type === 'INSIGHT' && (
@@ -304,7 +305,7 @@ export function SearchPalette({ isOpen, onClose }: SearchPaletteProps) {
                                                </div>
                                                <p className="text-xs text-zinc-500 line-clamp-1">{result.description}</p>
                                            </div>
-                                           <ArrowRight className="h-4 w-4 text-zinc-600 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
+                                           <ArrowRight className="h-4 w-4 text-zinc-600 opacity-0 group-hover/result:opacity-100 -translate-x-2 group-hover/result:translate-x-0 transition-all" />
                                        </button>
                                    )
                                })}

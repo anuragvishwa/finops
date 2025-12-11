@@ -17,7 +17,8 @@ interface StatTileProps {
 export function StatTile({ id, title, value, subtext, trend, trendValue, icon: Icon, onClick, layoutId }: StatTileProps) {
   return (
     <motion.div layoutId={layoutId} onClick={onClick} className="cursor-pointer h-full">
-        <GlassCard className="relative overflow-hidden group h-full" noPadding>
+        <GlassCard className="relative overflow-hidden group h-full hover:border-indigo-500/30 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)] transition-all duration-300" noPadding>
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         <div className="relative z-10 p-5">
             <div className="flex items-center justify-between mb-3">
             <div className="p-1.5 rounded-lg bg-zinc-800/50 border border-white/10 group-hover:bg-zinc-800 transition-colors">

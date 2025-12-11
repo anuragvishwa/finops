@@ -132,12 +132,15 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
          <div className="space-y-4">
             <GlassCard className="h-full flex flex-col" noPadding>
-               <div className="p-6 border-b border-white/5 flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <AlertOctagon className="h-5 w-5 text-rose-400" />
-                    Recent Cost Incidents
-                  </h3>
-                  <Link href="/incidents" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">View All</Link>
+               <div className="p-6 border-b border-white/5 flex items-start justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                       <AlertOctagon className="h-5 w-5 text-rose-400" />
+                       Recent Cost Incidents
+                    </h3>
+                    <p className="text-xs text-zinc-500 mt-1 ml-7">Overview of recent anomalies</p>
+                  </div>
+                  <Link href="/incidents" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors mt-1">View All</Link>
                </div>
                <div className="flex-1">
                   {costIncidents.slice(0, 3).map((incident) => (

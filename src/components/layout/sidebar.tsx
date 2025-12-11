@@ -48,7 +48,7 @@ export function Sidebar() {
           </div>
           <div className="flex flex-col">
             <h1 className="text-lg font-bold tracking-tight text-white leading-none">Lumniverse</h1>
-            <p className="text-[10px] font-medium text-zinc-500 tracking-wide mt-1">FinOps Assistant</p>
+            <p className="text-[10px] font-medium text-zinc-500 tracking-wide mt-1">FinOps tech.</p>
           </div>
         </div>
 

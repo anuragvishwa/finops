@@ -1,5 +1,3 @@
-"use client";
-
 import { Bell, Search, User } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
 import { useState, useRef, useEffect } from "react";

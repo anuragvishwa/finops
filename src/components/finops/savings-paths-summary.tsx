@@ -9,14 +9,19 @@ interface SavingsPathSummaryProps {
   onPathSelect?: (pathId: string) => void;
 }
 
+import Link from "next/link";
+
 export function SavingsPathSummary({ paths, onPathSelect }: SavingsPathSummaryProps) {
   return (
     <GlassCard className="h-full flex flex-col p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-semibold text-white">Savings Paths</h3>
-        <Badge variant="outline" className="rounded-full px-3 border-zinc-700 bg-zinc-800 text-zinc-300 font-normal hover:bg-zinc-800">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+           <h3 className="text-xl font-semibold text-white">Savings Paths</h3>
+           <p className="text-xs text-zinc-500 mt-1">AI-recommended cost optimization strategies</p>
+        </div>
+        {/* <Badge variant="outline" className="rounded-full px-3 border-zinc-700 bg-zinc-800 text-zinc-300 font-normal hover:bg-zinc-800">
            AI Generated
-        </Badge>
+        </Badge> */}
       </div>
 
       <div className="flex-1 space-y-4">
@@ -79,9 +84,9 @@ export function SavingsPathSummary({ paths, onPathSelect }: SavingsPathSummaryPr
         })}
       </div>
       
-      <button className="mt-6 w-full rounded-lg bg-fuchsia-900/20 border border-fuchsia-500/20 py-3 text-base font-medium text-fuchsia-300 hover:bg-fuchsia-900/30 hover:text-fuchsia-200 transition-all">
+      <Link href="/savings" className="mt-6 w-full block text-center rounded-lg bg-fuchsia-900/20 border border-fuchsia-500/20 py-3 text-base font-medium text-fuchsia-300 hover:bg-fuchsia-900/30 hover:text-fuchsia-200 transition-all">
         View All Savings Scenarios
-      </button>
+      </Link>
     </GlassCard>
   );
 }
